@@ -61,12 +61,36 @@ def is_empty(grid):
 
 
 def game_cycle(grid):
-    draw_field(grid)
-    row, col, direction = input().split()
-    row, col = int(row), int(col)
+    while True:
+        draw_field(grid)
+        try:
+            row, col, direction = input().split()
+            row, col = int(row), int(col)
+            if direction not in DIRECTIONS:
+                print('Неизвестное направление')
+                continue
+            break
+        except ValueError:
+            print('Неверный формат ввода')
     make_move(grid, row, col, direction)
     
     
+def get_size():
+    user_input = None
+    while user_input is None:
+        user_input = input()
+        try:
+            user_input = int(user_input)
+        except ValueError:
+            user_input = None
+            print('Введите целое число')
+            continue
+        if user_input < 1:
+            user_input = None
+            print('Размер поля должен быть больше нуля')
+    return user_input
+
+
 SYMBOLS = {
     'left': '←',
     'right': '→',
@@ -80,7 +104,7 @@ DIRECTIONS = {
     'down': (1, 0)
 }
 
-SIZE = int(input())
+SIZE = get_size()
 grid = generate_field()
 
 while not is_empty(grid):
