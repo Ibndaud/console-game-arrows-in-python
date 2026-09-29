@@ -1,8 +1,23 @@
+from random import choice
+
+
 def create_field():
-    grid = []
-    for _ in range(SIZE):
-        grid.append([i if i != '.' else None for i in input().split()])
-    return grid
+    return [[None]  * SIZE for i in range(SIZE)]
+
+
+def generate_field():
+    field = create_field()
+    for i in range(SIZE):
+        for j in range(SIZE):
+            if i < SIZE // 2 and j < SIZE // 2:
+                field[i][j] = choice(('up', 'left'))
+            elif i < SIZE // 2:
+                field[i][j] = choice(('up', 'right'))
+            elif i >= SIZE // 2 and j < SIZE // 2:
+                field[i][j] = choice(('down', 'left'))
+            else:
+                field[i][j] = choice(('down', 'right'))
+    return field
 
 
 def draw_field(grid):
@@ -55,9 +70,5 @@ DIRECTIONS = {
 }
 
 SIZE = int(input())
-grid = create_field()
-
-row, col, direction = input().split()
-row, col = int(row), int(col)
-
-make_move(grid, row, col, direction)
+grid = generate_field()
+draw_field(grid)
