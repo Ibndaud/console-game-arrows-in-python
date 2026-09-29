@@ -2,7 +2,7 @@ from random import choice
 
 
 def create_field():
-    return [[None]  * SIZE for i in range(SIZE)]
+    return [[None]  * SIZE for _ in range(SIZE)]
 
 
 def generate_field():
@@ -21,17 +21,16 @@ def generate_field():
 
 
 def draw_field(grid):
-    for i in range(SIZE + 1):
-        if not i:
-            print('\t' + '\t'.join(map(str, range(1, SIZE + 1))))
-            continue
-        print(str(i) + '\t' + '\t'.join([SYMBOLS.get(i) if i else '\u00B7' for i in grid[i - 1]]))
+    print('\t' + '\t'.join(map(str, range(1, SIZE + 1))))
+    for row_idx in range(1, SIZE + 1):
+        row_symbols = [SYMBOLS.get(cell) if cell else '\u00B7' for cell in grid[row_idx - 1]]
+        print(str(row_idx) + '\t' + '\t'.join(row_symbols))
 
 
 def path_is_clear(grid, row, col, direction):
     dr, dc = DIRECTIONS.get(direction)
     row, col = row + dr, col + dc
-    while row >= 0 and row < SIZE and col >= 0 and col < SIZE:
+    while 0 <= row < SIZE and 0 <= col < SIZE:
         if grid[row][col]:
             return False
         row, col = row + dr, col + dc
@@ -39,25 +38,25 @@ def path_is_clear(grid, row, col, direction):
 
 
 def make_move(grid, row, col, direction):
-    x, y = row - 1, col - 1
-    if not (0 <= x < SIZE) or not (0 <= y < SIZE):
+    row_index, col_index = row - 1, col - 1
+    if not (0 <= row_index < SIZE) or not (0 <= col_index < SIZE):
         print('Такой клетки нет')
         return
-    if not grid[x][y]:
+    if not grid[row_index][col_index]:
         print('В этой клетке нет стрелки')
         return
-    if grid[x][y] != direction:
+    if grid[row_index][col_index] != direction:
         print('Неверное направление')
         return
-    if not path_is_clear(grid, x, y, direction):
+    if not path_is_clear(grid, row_index, col_index, direction):
         print('Стрелка заблокирована')
         return
-    grid[x][y] = None
+    grid[row_index][col_index] = None
     print('Стрелка ушла!')
 
     
 def is_empty(grid):
-    return not any([cell for row in grid for cell in row])
+    return not any(cell for row in grid for cell in row)
 
 
 def game_cycle(grid):
@@ -65,7 +64,7 @@ def game_cycle(grid):
         draw_field(grid)
         try:
             row, col, direction = input().split()
-            row, col = int(row), int(col)
+            row, col, direction = int(row), int(col), direction.lower()
             if direction not in DIRECTIONS:
                 print('Неизвестное направление')
                 continue
@@ -109,5 +108,5 @@ grid = generate_field()
 
 while not is_empty(grid):
     game_cycle(grid)
-else:
-    print('Игра окончена!')
+
+print('Игра окончена!')
