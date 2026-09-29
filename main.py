@@ -60,6 +60,13 @@ def is_empty(grid):
     return not any([cell for row in grid for cell in row])
 
 
+def game_cycle(grid):
+    draw_field(grid)
+    row, col, direction = input().split()
+    row, col = int(row), int(col)
+    make_move(grid, row, col, direction)
+    
+    
 SYMBOLS = {
     'left': '←',
     'right': '→',
@@ -74,11 +81,9 @@ DIRECTIONS = {
 }
 
 SIZE = int(input())
-
-grid = create_field()
-print(is_empty(grid))
-
 grid = generate_field()
-print(is_empty(grid))
 
-#draw_field(grid)
+while not is_empty(grid):
+    game_cycle(grid)
+else:
+    print('Игра окончена!')
