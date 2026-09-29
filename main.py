@@ -23,6 +23,24 @@ def path_is_clear(grid, row, col, direction):
     return True
 
 
+def make_move(grid, row, col, direction):
+    x, y = row - 1, col - 1
+    if not (0 <= x < SIZE) or not (0 <= y < SIZE):
+        print('Такой клетки нет')
+        return
+    if not grid[x][y]:
+        print('В этой клетке нет стрелки')
+        return
+    if grid[x][y] != direction:
+        print('Неверное направление')
+        return
+    if not path_is_clear(grid, x, y, direction):
+        print('Стрелка заблокирована')
+        return
+    grid[x][y] = None
+    print('Стрелка ушла!')
+
+
 SYMBOLS = {
     'left': '←',
     'right': '→',
@@ -42,4 +60,4 @@ grid = create_field()
 row, col, direction = input().split()
 row, col = int(row), int(col)
 
-print(f"Стрелка {('заблокирована', 'ушла!')[path_is_clear(grid, row, col, direction)]}")
+make_move(grid, row, col, direction)
