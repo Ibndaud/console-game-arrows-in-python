@@ -21,14 +21,15 @@ def generate_field():
 
 
 def draw_field(grid):
-    print('\t' + '\t'.join(map(str, range(1, SIZE + 1))))
+    col_width = len(str(SIZE)) + 4
+    print(' ' * col_width + ''.join(f'{i:^{col_width}}' for i in range(1, SIZE + 1)))
     for row_idx in range(1, SIZE + 1):
-        row_symbols = [SYMBOLS.get(cell) if cell else '\u00B7' for cell in grid[row_idx - 1]]
-        print(str(row_idx) + '\t' + '\t'.join(row_symbols))
+        row_symbols = [f'{SYMBOLS.get(cell):^{col_width}}' if cell else f'{"\u00B7":^{col_width}}' for cell in grid[row_idx - 1]]
+        print(f'{row_idx:^{col_width}}' + ''.join(row_symbols))
 
 
 def path_is_clear(grid, row, col, direction):
-    dr, dc = DIRECTIONS.get(direction)
+    dr, dc = DIRECTIONS.get(direction, (0, 0))
     row, col = row + dr, col + dc
     while 0 <= row < SIZE and 0 <= col < SIZE:
         if grid[row][col]:
