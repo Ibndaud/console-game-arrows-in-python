@@ -55,6 +55,10 @@ def make_move(grid, row, col, direction):
     grid[x][y] = None
     print('Стрелка ушла!')
 
+    
+def is_empty(grid):
+    return not any([cell for row in grid for cell in row])
+
 
 SYMBOLS = {
     'left': '←',
@@ -70,5 +74,11 @@ DIRECTIONS = {
 }
 
 SIZE = int(input())
+
+grid = create_field()
+print(is_empty(grid))
+
 grid = generate_field()
-draw_field(grid)
+print(is_empty(grid))
+
+#draw_field(grid)
