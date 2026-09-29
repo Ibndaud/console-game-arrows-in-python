@@ -1,19 +1,19 @@
 from random import choice
 
 
-def create_field():
-    return [[None]  * SIZE for _ in range(SIZE)]
+def create_field(size):
+    return [[None]  * size for _ in range(size)]
 
 
-def generate_field():
-    field = create_field()
-    for i in range(SIZE):
-        for j in range(SIZE):
-            if i < SIZE // 2 and j < SIZE // 2:
+def generate_field(size):
+    field = create_field(size)
+    for i in range(size):
+        for j in range(size):
+            if i < size // 2 and j < size // 2:
                 field[i][j] = choice(('up', 'left'))
-            elif i < SIZE // 2:
+            elif i < size // 2:
                 field[i][j] = choice(('up', 'right'))
-            elif i >= SIZE // 2 and j < SIZE // 2:
+            elif i >= size // 2 and j < size // 2:
                 field[i][j] = choice(('down', 'left'))
             else:
                 field[i][j] = choice(('down', 'right'))
@@ -21,29 +21,32 @@ def generate_field():
 
 
 def draw_field(grid):
-    col_width = len(str(SIZE)) + 4
-    print(' ' * col_width + ''.join(f'{i:^{col_width}}' for i in range(1, SIZE + 1)))
-    for row_idx in range(1, SIZE + 1):
+    size = len(grid)
+    col_width = len(str(size)) + 4
+    print(' ' * col_width + ''.join(f'{i:^{col_width}}' for i in range(1, size + 1)))
+    for row_idx in range(1, size + 1):
         row_symbols = [f'{SYMBOLS.get(cell):^{col_width}}' if cell else f'{"\u00B7":^{col_width}}' for cell in grid[row_idx - 1]]
         print(f'{row_idx:^{col_width}}' + ''.join(row_symbols))
 
 
 def path_is_clear(grid, row, col, direction):
-    dr, dc = DIRECTIONS.get(direction, (0, 0))
+    size = len(grid)
+    dr, dc = DIRECTIONS[direction]
     row, col = row + dr, col + dc
-    while 0 <= row < SIZE and 0 <= col < SIZE:
-        if grid[row][col]:
+    while 0 <= row < size and 0 <= col < size:
+        if grid[row][col] is not None:
             return False
         row, col = row + dr, col + dc
     return True
 
 
 def make_move(grid, row, col, direction):
+    size = len(grid)
     row_index, col_index = row - 1, col - 1
-    if not (0 <= row_index < SIZE) or not (0 <= col_index < SIZE):
+    if not (0 <= row_index < size and 0 <= col_index < size):
         print('Такой клетки нет')
         return
-    if not grid[row_index][col_index]:
+    if grid[row_index][col_index] is None:
         print('В этой клетке нет стрелки')
         return
     if grid[row_index][col_index] != direction:
@@ -105,7 +108,7 @@ DIRECTIONS = {
 }
 
 SIZE = get_size()
-grid = generate_field()
+grid = generate_field(SIZE)
 
 while not is_empty(grid):
     game_cycle(grid)
