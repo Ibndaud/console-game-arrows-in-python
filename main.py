@@ -38,7 +38,7 @@ def draw_field(grid):
 
     for row_idx, row in enumerate(grid, start=1):
         row_symbols = ''.join(
-            f'{SYMBOLS[cell] is not None if cell else "\u00B7":^{col_width}}' 
+            f'{SYMBOLS[cell] if cell is not None else "\u00B7":^{col_width}}' 
             for cell in row
             )
         
@@ -130,8 +130,8 @@ DIRECTIONS = {
 }
 
 def main():
-    SIZE = get_size()
-    grid = generate_field(SIZE)
+    size = get_size()
+    grid = generate_field(size)
 
     while not is_empty(grid):
         game_turn(grid)
