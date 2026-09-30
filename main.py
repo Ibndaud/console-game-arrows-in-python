@@ -7,36 +7,58 @@ def create_field(size):
 
 def generate_field(size):
     field = create_field(size)
+    mid = (size - 1) / 2
+    
     for i in range(size):
+        if i < mid:
+            vertical_direction = ['up']
+        elif i > mid:
+            vertical_direction = ['down']
+        else:
+            vertical_direction = ['up', 'down']
+        
         for j in range(size):
-            if i < size // 2 and j < size // 2:
-                field[i][j] = choice(('up', 'left'))
-            elif i < size // 2:
-                field[i][j] = choice(('up', 'right'))
-            elif i >= size // 2 and j < size // 2:
-                field[i][j] = choice(('down', 'left'))
+            if j < mid:
+                horizontal_direction = ['left']
+            elif j > mid:
+                horizontal_direction = ['right']
             else:
-                field[i][j] = choice(('down', 'right'))
+                horizontal_direction = ['left', 'right']
+            
+            field[i][j] = choice(vertical_direction + horizontal_direction)
+    
     return field
 
 
 def draw_field(grid):
     size = len(grid)
     col_width = len(str(size)) + 4
+
     print(' ' * col_width + ''.join(f'{i:^{col_width}}' for i in range(1, size + 1)))
-    for row_idx in range(1, size + 1):
-        row_symbols = [f'{SYMBOLS.get(cell):^{col_width}}' if cell else f'{"\u00B7":^{col_width}}' for cell in grid[row_idx - 1]]
-        print(f'{row_idx:^{col_width}}' + ''.join(row_symbols))
+
+    for row_idx, row in enumerate(grid, start=1):
+        row_symbols = ''.join(
+            f'{SYMBOLS[cell] if cell else "\u00B7":^{col_width}}' 
+            for cell in row
+            )
+        
+        print(f'{row_idx:^{col_width}}{row_symbols}')
 
 
 def path_is_clear(grid, row, col, direction):
     size = len(grid)
     dr, dc = DIRECTIONS[direction]
-    row, col = row + dr, col + dc
+
+    row += dr
+    col += dc
+    
     while 0 <= row < size and 0 <= col < size:
         if grid[row][col] is not None:
             return False
-        row, col = row + dr, col + dc
+        
+        row += dr
+        col += dc
+    
     return True
 
 
@@ -60,14 +82,14 @@ def make_move(grid, row, col, direction):
 
     
 def is_empty(grid):
-    return not any(cell for row in grid for cell in row)
+    return all(cell is None for row in grid for cell in row)
 
 
-def game_cycle(grid):
+def game_turn(grid):
     while True:
         draw_field(grid)
         try:
-            row, col, direction = input().split()
+            row, col, direction = input('Введите номер строки, столбца и направление: ').split()
             row, col, direction = int(row), int(col), direction.lower()
             if direction not in DIRECTIONS:
                 print('Неизвестное направление')
@@ -81,7 +103,7 @@ def game_cycle(grid):
 def get_size():
     user_input = None
     while user_input is None:
-        user_input = input()
+        user_input = input('Введите размер поля: ')
         try:
             user_input = int(user_input)
         except ValueError:
@@ -111,6 +133,6 @@ SIZE = get_size()
 grid = generate_field(SIZE)
 
 while not is_empty(grid):
-    game_cycle(grid)
+    game_turn(grid)
 
 print('Игра окончена!')
