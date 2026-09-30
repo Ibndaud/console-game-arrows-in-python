@@ -91,13 +91,16 @@ def game_turn(grid):
         try:
             row, col, direction = input('Введите номер строки, столбца и направление: ').split()
             row, col, direction = int(row), int(col), direction.lower()
-            if direction not in DIRECTIONS:
-                print('Неизвестное направление')
-                continue
-            break
         except ValueError:
             print('Неверный формат ввода')
-    make_move(grid, row, col, direction)
+            continue
+
+        if direction not in DIRECTIONS:
+            print('Неизвестное направление')
+            continue
+
+        make_move(grid, row, col, direction)
+        return
     
 
 def get_size():
