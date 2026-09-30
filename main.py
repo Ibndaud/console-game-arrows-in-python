@@ -92,12 +92,60 @@ class Field:
             print(f'{row_idx:^{col_width}}{row_symbols}')
 
 
+class Game:
+    def __init__(self):
+        self.field = None
+
+
+    def run(self):
+        self.field = Field(self.get_size())
+
+        while not self.field.is_empty():
+            self.game_turn()
+
+        print('Игра окончена!')
+
+
+    def get_size(self):
+        while True:
+            try:
+                size = int(input('Введите размер поля: '))
+            except ValueError:
+                print('Введите целое число')
+                continue
+            if size < 1:
+                print('Размер поля должен быть больше нуля')
+                continue
+            return size
+
+
+    def game_turn(self):
+        while True:
+            self.field.draw()
+            try:
+                row, col, direction = input('Введите номер строки, столбца и направление: ').split()
+                row, col, direction = int(row), int(col), direction.lower()
+            except ValueError:
+                print('Неверный формат ввода')
+                continue
+            
+            if direction not in DIRECTIONS:
+                print('Неизвестное направление')
+                continue
+
+            result, message = self.field.make_move(row, col, direction)
+            print(message)
+            return
+
+        
+
 
 
 
 
 def main():
-    pass
+    game = Game()
+    game.run()
 
 
 if __name__ == "__main__":
