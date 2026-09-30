@@ -99,21 +99,18 @@ def game_turn(grid):
             print('Неверный формат ввода')
     make_move(grid, row, col, direction)
     
-    
+
 def get_size():
-    user_input = None
-    while user_input is None:
-        user_input = input('Введите размер поля: ')
+    while True:
         try:
-            user_input = int(user_input)
+            size = int(input('Введите размер поля: '))
         except ValueError:
-            user_input = None
             print('Введите целое число')
             continue
-        if user_input < 1:
-            user_input = None
+        if size < 1:
             print('Размер поля должен быть больше нуля')
-    return user_input
+            continue
+        return size
 
 
 SYMBOLS = {
