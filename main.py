@@ -1,6 +1,9 @@
 from game import Game
 
 
+MAX_FIELD_SIZE = 30
+
+
 def get_size() -> int:
     while True:
         try:
@@ -8,8 +11,8 @@ def get_size() -> int:
         except ValueError:
             print('Введите целое число')
             continue
-        if size < 1:
-            print('Размер поля должен быть больше нуля')
+        if not 1 <= size <= MAX_FIELD_SIZE:
+            print(f'Размер поля должен быть от 1 до {MAX_FIELD_SIZE}')
             continue
         return size
 

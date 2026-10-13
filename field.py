@@ -11,6 +11,7 @@ class Field:
             [None] * self.size for _ in range(self.size)
             ]
         self._generate_field()
+        self.remaining = self.size ** 2
 
 
     def _generate_field(self) -> None:
@@ -52,7 +53,8 @@ class Field:
 
     
     def is_empty(self) -> bool:
-        return all(cell is None for row in self.grid for cell in row)
+        return self.remaining == 0
+        # return all(cell is None for row in self.grid for cell in row)
 
 
     def make_move(
@@ -77,6 +79,7 @@ class Field:
             return False, 'Стрелка заблокирована'
         
         self.grid[row_index][col_index] = None
+        self.remaining -= 1
         return True, 'Стрелка ушла!'
 
 
