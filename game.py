@@ -69,8 +69,6 @@ class Game:
 
         if direction is None:
             self._set_message('В этой клетке нет стрелки', ERROR_COLOR)
-            # self.message = 'В этой клетке нет стрелки'
-            # self.message_color = ERROR_COLOR
             return
 
         success, message = self.field.make_move(row + 1, col + 1, direction)
@@ -78,8 +76,6 @@ class Game:
 
         if success and self.field.is_empty():
             self._set_message('Игра окончена!', SUCCESS_COLOR)
-            # self.message = 'Игра окончена!'
-            # self.message_color = SUCCESS_COLOR
         elif success:
             self.message_color = SUCCESS_COLOR
         else:
@@ -123,42 +119,3 @@ class Game:
         self.renderer.field = self.field
 
         self._set_message('Нажмите на стрелку', TEXT_COLOR)
-        # self.message = 'Нажмите на стрелку'
-        # self.message_color = TEXT_COLOR
-
-
-# # консольный вариант класса
-# class Game:
-#     def __init__(self, size: int) -> None:
-#         self.field = Field(size)
-
-
-#     def run(self) -> None:
-#         while not self.field.is_empty():
-#             self.game_turn()
-
-#         print('Игра окончена!')
-
-
-#     def game_turn(self) -> None:
-#         while True:
-#             print(self.field)
-#             try:
-#                 row, col, direction = input(
-#                     'Введите номер строки, столбца и направление: '
-#                     ).split()
-#                 row, col = int(row), int(col)
-#             except ValueError:
-#                 print('Неверный формат ввода')
-#                 continue
-            
-#             try:
-#                 direction = Direction.from_string(direction)
-#             except KeyError:
-#                 valid = ', '.join(d.name.lower() for d in Direction)
-#                 print(f'Неизвестное направление. Допустимо: {valid}.')
-#                 continue
-
-#             _, message = self.field.make_move(row, col, direction)
-#             print(message)
-#             return

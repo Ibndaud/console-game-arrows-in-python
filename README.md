@@ -44,8 +44,8 @@
 | Этап | Файлы | Что появилось |
 |---|---|---|
 | 1. Консольный прототип | [`legacy/arrow_puzzle.py`](legacy/arrow_puzzle.py) | функции, глобальная `SIZE`, ввод `row col direction` из консоли |
-| 2. OOP-рефакторинг | [`legacy/arrow_puzzle_fixed.py`](legacy/arrow_puzzle_fixed.py) | размер поля параметром, `mid = (size - 1) / 2` — генерация любых размеров |
-| 3. Модульная версия + GUI | `direction.py`, `field.py`, `game.py`, `ui.py`, `main.py` | классы по ответственности, enum направлений, pygame-рендер |
+| 2. Рефакторинг кода из курса + оптимизация | [`legacy/arrow_puzzle_fixed.py`](legacy/arrow_puzzle_fixed.py) | размер поля параметром, `mid = (size - 1) / 2` — генерация любых размеров |
+| 3. Модульная версия + OOP + GUI | `direction.py`, `field.py`, `game.py`, `ui.py`, `main.py` | классы по ответственности, enum направлений, pygame-рендер |
 
 Историю шагов подробно видно в коммитах: `added class Field` → `added enum - directions` → `refactored code in separated files` → `rewrited using pygame`.
 

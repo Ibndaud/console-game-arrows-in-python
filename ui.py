@@ -23,9 +23,6 @@ class FieldRenderer:
         self.field = field
         self.cell_size = cell_size
         self.margin = margin
-        # self.font = pygame.font.SysFont(
-        #     'Segoe UI Symbol', int(cell_size * 0.6), bold=True
-        #     )
         self.grid_size = self.field.size * self.cell_size
         self.grid_rect = pygame.Rect(
             self.margin, self.margin, self.grid_size, self.grid_size
@@ -50,12 +47,6 @@ class FieldRenderer:
 
                 if direction is not None:
                     self.draw_arrow(screen, rect, direction)
-                    # arrow_surface = self.font.render(
-                    #     direction.symbol, True, ARROW_COLOR
-                    #     )
-                    # arrow_rect = arrow_surface.get_rect(center=rect.center)
-
-                    # screen.blit(arrow_surface, arrow_rect)
 
 
     def get_cell_at(
