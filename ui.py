@@ -16,6 +16,53 @@ GRID_COLOR = (180, 190, 200)
 ARROW_COLOR = (40, 80, 160)
 HOVER_COLOR = (210, 230, 255)
 
+TEXT_COLOR = (30, 30, 30)
+
+
+class TextInput:
+    """Простое однострочное поле ввода цифр для pygame-окна."""
+
+    def __init__(
+            self, rect: pygame.Rect, font: pygame.font.Font,
+            max_length: int = 2
+            ) -> None:
+        self.rect = rect
+        self.font = font
+        self.text = ''
+        self.max_length = max_length
+
+    def handle_key(self, event: pygame.event.Event) -> str | None:
+        """
+        Обрабатывает KEYDOWN-событие.
+        Возвращает 'submit', если нажат Enter, иначе None.
+        """
+        if event.key == pygame.K_RETURN:
+            return 'submit'
+        if event.key == pygame.K_BACKSPACE:
+            self.text = self.text[:-1]
+        elif event.unicode.isdigit() and len(self.text) < self.max_length:
+            self.text += event.unicode
+        return None
+
+    def draw(self, screen: pygame.Surface) -> None:
+        pygame.draw.rect(screen, CELL_COLOR, self.rect)
+        pygame.draw.rect(screen, GRID_COLOR, self.rect, 2)
+
+        surface = self.font.render(self.text, True, TEXT_COLOR)
+        text_rect = surface.get_rect(
+            midleft=(self.rect.x + 12, self.rect.centery)
+            )
+        screen.blit(surface, text_rect)
+
+        cursor_x = text_rect.right + 2 if self.text else self.rect.x + 12
+        if pygame.time.get_ticks() % 1000 < 500:
+            pygame.draw.line(
+                screen, TEXT_COLOR,
+                (cursor_x, self.rect.y + 8), (cursor_x, self.rect.bottom - 8),
+                2
+                )
+
+
 
 class FieldRenderer:
     def __init__(
