@@ -56,9 +56,9 @@ def resolve_click(
         return message, SUCCESS_COLOR
     return message, ERROR_COLOR
 
+
 class Game:
     def __init__(self) -> None:
-    # def __init__(self, size: int) -> None:
         pygame.init()
 
         self.running = True

@@ -79,6 +79,7 @@ class FieldRenderer:
 
 
     def draw(self, screen, hovered_cell=None):
+        """Рисует поле: клетки, сетку, стрелки и подсветку клетки под курсором."""
         for row in range(self.field.size):
             for col in range(self.field.size):
                 x = self.margin + col * self.cell_size
