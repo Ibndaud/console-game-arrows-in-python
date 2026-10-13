@@ -1,9 +1,26 @@
 [project]
 name = "console-game-arrows-in-python"
 version = "0.1.0"
-description = "Add your description here"
+description = "Головоломка «Стрелки»: от консольного прототипа до GUI на pygame"
 readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Ibndaud" },
+]
 requires-python = ">=3.13"
 dependencies = [
     "pygame>=2.6.1",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+# E4/E7/E9 — pycodestyle (ошибки и стиль), F — pyflakes (реальные баги).
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+# Легаси-версии «до рефакторинга» не приводим к стандартам —
+# они сохранены как учебная история эволюции кода.
+"legacy/*" = ["E", "F"]
