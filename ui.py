@@ -1,13 +1,15 @@
+from __future__ import annotations
+
 import pygame
 
 from direction import Direction
-from field import Field
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from field import Field
 
 
 # Цвета
-WHITE = (255, 255, 255)
-BLACK = (30, 30, 30)
-
 BACKGROUND = (235, 240, 245)
 CELL_COLOR = (255, 255, 255)
 GRID_COLOR = (180, 190, 200)
@@ -73,7 +75,7 @@ class FieldRenderer:
         cx, cy = rect.center
 
         # Размеры стрелки относительно клетки
-        length = self.cell_size * 0.55
+        half_length = self.cell_size * 0.275
         head_length = self.cell_size * 0.18
         head_width = self.cell_size * 0.22
         line_width = max(2, int(self.cell_size * 0.06))
@@ -84,12 +86,12 @@ class FieldRenderer:
         dy = direction.dr
 
         # Конец древка / кончик стрелки
-        tip_x = cx + dx * length / 2
-        tip_y = cy + dy * length / 2
+        tip_x = cx + dx * half_length
+        tip_y = cy + dy * half_length
 
         # Начало древка
-        start_x = cx - dx * length / 2
-        start_y = cy - dy * length / 2
+        start_x = cx - dx * half_length
+        start_y = cy - dy * half_length
 
         # Основание наконечника
         base_x = tip_x - dx * head_length

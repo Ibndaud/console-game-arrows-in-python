@@ -54,7 +54,6 @@ class Field:
     
     def is_empty(self) -> bool:
         return self.remaining == 0
-        # return all(cell is None for row in self.grid for cell in row)
 
 
     def make_move(
